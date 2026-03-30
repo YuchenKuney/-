@@ -1,0 +1,22 @@
+name: OpenClaw 24H Running
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 43200 # 最大30天不中断
+    
+    steps:
+      - name: Start OpenClaw
+        run: |
+          docker run -d \
+            --restart always \
+            -p 18789:18789 \
+            -e OPENAI_API_KEY="sk-cp-fyORnp6YkjcEOBqkN06LVGrY-Q42Fx4XXo55vwqzvg73yu1oqyV10ocdR0MG3E-QGnczWgMjewApruD4nTxIt2EPzAQDNKdJizrq5vLOYOD7LbW8R3uYATg" \
+            -e OPENAI_BASE_URL="https://api.minimax.chat/v1" \
+            ghcr.nju.edu.cn/openclaw/openclaw:latest
+          
+          sleep infinity
