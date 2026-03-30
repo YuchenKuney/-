@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Start OpenClaw
         run: |
+          # 启动 OpenClaw
           docker run -d \
             --restart always \
             -p 18789:18789 \
@@ -19,4 +20,10 @@ jobs:
             -e OPENAI_BASE_URL="https://api.minimax.chat/v1" \
             ghcr.nju.edu.cn/openclaw/openclaw:latest
           
+          # 安装 ngrok 并暴露端口
+          wget -q https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+          tar -xf ngrok-v3-stable-linux-amd64.tgz
+          ./ngrok http 18789 --log stdout &
+          
+          # 保持运行
           sleep infinity
